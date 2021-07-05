@@ -1,0 +1,476 @@
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Main = Instance.new("ScrollingFrame")
+local TextLabel = Instance.new("TextLabel")
+local Fly = Instance.new("TextButton")
+local NoClip = Instance.new("TextButton")
+local ArsenalScript = Instance.new("TextButton")
+local Funkyauto = Instance.new("TextButton")
+local InfJump = Instance.new("TextButton")
+local arsenalSlaughter = Instance.new("TextButton")
+local KATHack = Instance.new("TextButton")
+
+--Properties:
+
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Main.Name = "Main"
+Main.Parent = ScreenGui
+Main.Active = true
+Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Main.Position = UDim2.new(0.674606919, 0, 0.444371819, 0)
+Main.Size = UDim2.new(0, 229, 0, 211)
+Main.Active = true
+Main.Draggable = true
+
+
+TextLabel.Parent = Main
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderColor3 = Color3.fromRGB(0, 255, 255)
+TextLabel.Position = UDim2.new(0, 0, -0.0028957529, 0)
+TextLabel.Size = UDim2.new(0, 215, 0, 24)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "UnNamed scriptHub By PHSYCOMICO"
+TextLabel.TextColor3 = Color3.fromRGB(0, 255, 255)
+TextLabel.TextSize = 14.000
+
+Fly.Name = "Fly"
+Fly.Parent = Main
+Fly.BackgroundColor3 = Color3.fromRGB(0, 85, 255)
+Fly.Position = UDim2.new(0, 0, 0.0194482431, 0)
+Fly.Size = UDim2.new(0, 99, 0, 53)
+Fly.Font = Enum.Font.SourceSans
+Fly.Text = "Fly"
+Fly.TextColor3 = Color3.fromRGB(255, 0, 0)
+Fly.TextSize = 14.000
+Fly.MouseButton1Down:connect(function()
+	_G.FLYING = false
+	local LP = game:service('Players').LocalPlayer
+	local T = LP.Character.UpperTorso
+	local CONTROL = {F = 0, B = 0, L = 0, R = 0}
+	local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+	local SPEED = 5
+	local MOUSE = LP:GetMouse()
+
+
+	local function FLY()
+		_G.FLYING = true
+		local BG = Instance.new('BodyGyro', T)
+		local BV = Instance.new('BodyVelocity', T)
+		BG.P = 9e4
+		BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+		BG.cframe = T.CFrame
+		BV.velocity = Vector3.new(0, 0.1, 0)
+		BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+
+
+		spawn(function()
+			repeat wait()
+				LP.Character.Humanoid.PlatformStand = true
+				if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
+					SPEED = 50
+				elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
+					SPEED = 0
+				end
+				if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
+					BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+					lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+				elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
+					BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+				else
+					BV.velocity = Vector3.new(0, 0.1, 0)
+				end
+				BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+			until not _G.FLYING
+			CONTROL = {F = 0, B = 0, L = 0, R = 0}
+			lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+			SPEED = 0
+			BG:destroy()
+			BV:destroy()
+			LP.Character.Humanoid.PlatformStand = false
+		end)
+	end
+
+	MOUSE.KeyDown:connect(function(KEY)
+		if KEY:lower() == 'w' then
+			CONTROL.F = 1
+		elseif KEY:lower() == 's' then
+			CONTROL.B = -1
+		elseif KEY:lower() == 'a' then
+			CONTROL.L = -1 
+		elseif KEY:lower() == 'd' then 
+			CONTROL.R = 1
+		end
+	end)
+
+	MOUSE.KeyUp:connect(function(KEY)
+		if KEY:lower() == 'w' then
+			CONTROL.F = 0
+		elseif KEY:lower() == 's' then
+			CONTROL.B = 0
+		elseif KEY:lower() == 'a' then
+			CONTROL.L = 0
+		elseif KEY:lower() == 'd' then
+			CONTROL.R = 0
+		end
+	end)
+
+
+
+
+	FLY()
+end)
+
+NoClip.Name = "NoClip"
+NoClip.Parent = Main
+NoClip.BackgroundColor3 = Color3.fromRGB(0, 85, 255)
+NoClip.Position = UDim2.new(0.493449777, 0, 0.0202003568, 0)
+NoClip.Size = UDim2.new(0, 102, 0, 53)
+NoClip.Font = Enum.Font.SourceSans
+NoClip.Text = "NoClip"
+NoClip.TextColor3 = Color3.fromRGB(255, 0, 0)
+NoClip.TextSize = 14.000
+NoClip.MouseButton1Down:connect(function()
+	noclip = false
+	game:GetService('RunService').Stepped:connect(function()
+		if noclip then
+			game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+		end
+	end)
+	plr = game.Players.LocalPlayer
+	mouse = plr:GetMouse()
+	mouse.KeyDown:connect(function(key)
+
+		if key == "e" then
+			noclip = not noclip
+			game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+		end
+	end)
+end)
+
+ArsenalScript.Name = "ArsenalScript"
+ArsenalScript.Parent = Main
+ArsenalScript.BackgroundColor3 = Color3.fromRGB(0, 85, 255)
+ArsenalScript.Position = UDim2.new(0, 0, 0.075969927, 0)
+ArsenalScript.Size = UDim2.new(0, 99, 0, 53)
+ArsenalScript.Font = Enum.Font.SourceSans
+ArsenalScript.Text = "Arsenal \"e\" to kill all"
+ArsenalScript.TextColor3 = Color3.fromRGB(255, 0, 0)
+ArsenalScript.TextSize = 14.000
+ArsenalScript.MouseButton1Down:connect(function()
+	loadstring(game:HttpGet('https://pastebin.com/raw/HTSX3ryk', true))()
+end)
+
+Funkyauto.Name = "Funkyauto"
+Funkyauto.Parent = Main
+Funkyauto.BackgroundColor3 = Color3.fromRGB(0, 85, 255)
+Funkyauto.Position = UDim2.new(0.493449777, 0, 0.0757114217, 0)
+Funkyauto.Size = UDim2.new(0, 102, 0, 53)
+Funkyauto.Font = Enum.Font.SourceSans
+Funkyauto.Text = "Funky Friday Bot"
+Funkyauto.TextColor3 = Color3.fromRGB(255, 0, 0)
+Funkyauto.TextSize = 14.000
+Funkyauto.MouseButton1Down:connect(function()
+	shared.Settings = {
+		Autoplay = true, -- is the autoplayer is enabled
+		ReleaseDelay = 7, -- time to wait before releasing the note (in ms)
+
+		Percentages = { -- accuracy percentages
+			["Sick"] = 75,
+			["Good"] = 25,
+			["Ok"] = 0,
+			["Bad"] = 0
+		}
+	}
+
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Introvert1337/Releases/master/Funky%20Friday.lua"))()
+end)
+
+InfJump.Name = "InfJump"
+InfJump.Parent = Main
+InfJump.BackgroundColor3 = Color3.fromRGB(0, 85, 255)
+InfJump.Position = UDim2.new(0, 0, 0.138711244, 0)
+InfJump.Size = UDim2.new(0, 99, 0, 53)
+InfJump.Font = Enum.Font.SourceSans
+InfJump.Text = "Infinite Jump"
+InfJump.TextColor3 = Color3.fromRGB(255, 0, 0)
+InfJump.TextSize = 14.000
+InfJump.MouseButton1Down:connect(function()
+	local ScreenGui = Instance.new("ScreenGui")
+	local main = Instance.new("Frame")
+	local TextLabel = Instance.new("TextLabel")
+	local Frame = Instance.new("Frame")
+	local INFJUMP = Instance.new("TextButton")
+	local TextLabel_2 = Instance.new("TextLabel")
+
+	--Properties:
+
+	ScreenGui.Parent = game.CoreGui
+
+	main.Name = "main"
+	main.Parent = ScreenGui
+	main.Active = true
+	main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	main.BorderSizePixel = 0
+	main.Position = UDim2.new(0.119258665, 0, 0, 0)
+	main.Size = UDim2.new(0, 146, 0, 28)
+	main.Active = true
+	main.Draggable = false
+
+	TextLabel.Parent = main
+	TextLabel.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+	TextLabel.BorderSizePixel = 0
+	TextLabel.Size = UDim2.new(0, 146, 0, 28)
+	TextLabel.Font = Enum.Font.SciFi
+	TextLabel.Text = "Misc"
+	TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TextLabel.TextSize = 17.000
+	TextLabel.TextWrapped = true
+
+	Frame.Parent = main
+	Frame.BackgroundColor3 = Color3.fromRGB(86, 86, 86)
+	Frame.BorderSizePixel = 0
+	Frame.Position = UDim2.new(0, 0, 1, 0)
+	Frame.Size = UDim2.new(0, 146, 0, 61)
+
+	INFJUMP.Name = "INFJUMP"
+	INFJUMP.Parent = main
+	INFJUMP.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	INFJUMP.BorderSizePixel = 0
+	INFJUMP.Position = UDim2.new(0.794520497, 0, 1.6785717, 0)
+	INFJUMP.Size = UDim2.new(0, 21, 0, 21)
+	INFJUMP.Font = Enum.Font.SourceSans
+	INFJUMP.Text = ""
+	INFJUMP.TextColor3 = Color3.fromRGB(0, 0, 0)
+	INFJUMP.TextSize = 14.000
+	INFJUMP.MouseButton1Down:connect(function()
+		local Player = game:GetService'Players'.LocalPlayer;
+		local UIS = game:GetService'UserInputService';
+
+		_G.JumpHeight = 50;
+
+		function Action(Object, Function) if Object ~= nil then Function(Object); end end
+
+		UIS.InputBegan:connect(function(UserInput)
+			if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space then
+				Action(Player.Character.Humanoid, function(self)
+					if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
+						Action(self.Parent.HumanoidRootPart, function(self)
+							self.Velocity = Vector3.new(0, _G.JumpHeight, 0);
+						end)
+					end
+				end)
+			end
+		end)
+	end)
+
+	TextLabel_2.Parent = main
+	TextLabel_2.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+	TextLabel_2.BorderSizePixel = 0
+	TextLabel_2.Position = UDim2.new(0.0547945201, 0, 1.57142854, 0)
+	TextLabel_2.Size = UDim2.new(0, 94, 0, 28)
+	TextLabel_2.Font = Enum.Font.SciFi
+	TextLabel_2.Text = "Inf jump"
+	TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TextLabel_2.TextSize = 17.000
+	TextLabel_2.TextWrapped = true
+
+	-- Scripts:
+
+	local function TKDWQ_fake_script() -- INFJUMP.LocalScript 
+		local script = Instance.new('LocalScript', INFJUMP)
+
+		function zigzag(X) return math.acos(math.cos(X*math.pi))/math.pi end
+
+		counter = 0
+
+		while wait(0.1)do
+			script.Parent.BackgroundColor3 = Color3.fromHSV(zigzag(counter),1,1)
+
+			counter = counter + 0.01
+		end
+	end
+	coroutine.wrap(TKDWQ_fake_script)()
+end)
+
+arsenalSlaughter.Name = "arsenalSlaughter"
+arsenalSlaughter.Parent = Main
+arsenalSlaughter.BackgroundColor3 = Color3.fromRGB(0, 85, 255)
+arsenalSlaughter.Position = UDim2.new(0.493449777, 0, 0.138452739, 0)
+arsenalSlaughter.Size = UDim2.new(0, 102, 0, 53)
+arsenalSlaughter.Font = Enum.Font.SourceSans
+arsenalSlaughter.Text = "slaughter event bot"
+arsenalSlaughter.TextColor3 = Color3.fromRGB(255, 0, 0)
+arsenalSlaughter.TextSize = 14.000
+arsenalSlaughter.MouseButton1Down:connect(function()
+	wait(2)
+	local plr
+	local char
+	repeat wait()
+	until game.Players.LocalPlayer and game.Players.LocalPlayer.Character
+	plr = game.Players.LocalPlayer
+	char = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:wait()
+	local hump = char:WaitForChild("HumanoidRootPart")
+	if game.PlaceId == 286090429 then
+		wait(.5)
+		rconsolename("Arsenal PGuy Check")
+		local skincount = {}
+		for i, v in pairs(plr:WaitForChild("Data"):WaitForChild("Shuffles"):WaitForChild("Skins"):GetChildren()) do
+			if v.Name == "Slaughter Delinquent" then
+				table.insert(skincount,v)
+			end
+		end
+		repeat wait()
+		until plr:FindFirstChild("DataLoaded")
+		rconsoleinfo("You got "..#skincount.." Slaughter Delinquent")
+		game:GetService("TeleportService"):Teleport(6318874810, plr, nil, nil)
+		warn("Teleporting")
+	else
+		local uis = game:GetService("UserInputService")
+		local crosses = game:GetService("Workspace").Objectives
+		local collects = game:GetService("Workspace").Collect
+		local check = plr.PlayerGui:WaitForChild("Slaught"):WaitForChild("Obj"):WaitForChild("List")
+		local checkbut = plr.PlayerGui:WaitForChild("Menew"):WaitForChild("Main"):WaitForChild("Fake"):WaitForChild("ok")
+
+		repeat wait()
+		until checkbut.Visible == true
+		local ded = "MouseButton1";
+		local Target = game:GetService("ReplicatedStorage").Events.CoolNewRemote;
+		Target:FireServer(ded);
+		wait(.5)
+		local string_1 = "TPC";
+		local Target = game:GetService("ReplicatedStorage").Events.JoinTeam;
+		Target:FireServer(ded);
+		Target:FireServer(string_1);
+
+		local stundastupid = coroutine.wrap(function()
+			while wait() do
+				game.ReplicatedStorage.Remotes.Stun:FireServer()
+			end
+		end)
+		stundastupid()
+
+		repeat
+			for i, v in pairs(collects:GetChildren()) do
+				if v:IsA("BasePart") then
+					char:WaitForChild("Humanoid"):ChangeState(11)
+					local tween = game:GetService("TweenService"):Create(hump,TweenInfo.new((hump.Position-v.Position).Magnitude/69420,Enum.EasingStyle.Quad), {CFrame = v.CFrame * CFrame.new(0,-5,0)})
+					tween:Play()
+					wait(.2)
+					local Target = game:GetService("ReplicatedStorage").Remotes.Collect;
+					Target:FireServer(v);
+					wait(.1)
+				end
+			end
+			wait(#collects:GetChildren()/7.3)
+		until (check.Gas.Count.Text == "5/5" or check.Gas.Count.Text == "6/6" or check.Gas.Count.Text == "7/7" or check.Gas.Count.Text == "8/8" or check.Gas.Count.Text == "9/9") and (check.Tinder.Count.Text == "5/5" or check.Tinder.Count.Text == "6/6" or check.Tinder.Count.Text == "7/7" or check.Tinder.Count.Text == "8/8" or check.Tinder.Count.Text == "9/9")
+
+		repeat
+			for i, v in pairs(crosses:GetChildren()) do
+				if v:IsA("BasePart") then
+					char:WaitForChild("Humanoid"):ChangeState(11)
+					local tween = game:GetService("TweenService"):Create(hump,TweenInfo.new((hump.Position-v.Position).Magnitude/69420,Enum.EasingStyle.Quad), {CFrame = v.CFrame * CFrame.new(0,-5,0)})
+					tween:Play()
+					wait(.2)
+					local Target = game:GetService("ReplicatedStorage").Remotes.Gas;
+					Target:FireServer(v);
+					wait(.1)
+				end
+			end
+			wait(#crosses:GetChildren()/7.3)
+		until (check.Gas_P.Count.Text == "5/5" or check.Gas_P.Count.Text == "6/6" or check.Gas_P.Count.Text == "7/7" or check.Gas_P.Count.Text == "8/8" or check.Gas_P.Count.Text == "9/9") and (check.Tinder_P.Count.Text == "5/5" or check.Tinder_P.Count.Text == "6/6" or check.Tinder_P.Count.Text == "7/7" or check.Tinder_P.Count.Text == "8/8" or check.Tinder_P.Count.Text == "9/9")
+
+		repeat
+			local v = game:GetService("Workspace").Switch.Base
+			local tween = game:GetService("TweenService"):Create(hump,TweenInfo.new((hump.Position-v.Position).Magnitude/69420,Enum.EasingStyle.Quad), {CFrame = v.CFrame * CFrame.new(0,-5,0)})
+			tween:Play()
+			local Target = game:GetService("ReplicatedStorage").Remotes.Lever;
+			Target:FireServer();
+			wait(.1)
+		until not char
+	end
+end)
+
+KATHack.Name = "KATHack"
+KATHack.Parent = Main
+KATHack.BackgroundColor3 = Color3.fromRGB(0, 85, 255)
+KATHack.Position = UDim2.new(-0.0131004155, 0, 0.205485702, 0)
+KATHack.Size = UDim2.new(0, 102, 0, 53)
+KATHack.Font = Enum.Font.SourceSans
+KATHack.Text = "Kat Gui"
+KATHack.TextColor3 = Color3.fromRGB(255, 0, 0)
+KATHack.TextSize = 14.000
+KATHack.MouseButton1Down:connect(function()
+	_G.ToggleColor = Color3.fromRGB(255,0,0)
+	_G.ButtonColor = Color3.fromRGB(0,255,0)
+	_G.SliderColor = Color3.fromRGB(0,0,255)
+
+	local library = loadstring(game:HttpGet(('https://pastebin.com/raw/FsJak6AT')))() -- It's obfuscated, I won't let you see my ugly coding skills. =)
+
+	local w = library:CreateWindow("Lime x - Kat")
+
+	local b = w:CreateFolder("Features")
+
+	b:Label("Aimbot",Color3.fromRGB(38,38,38),Color3.fromRGB(0,216,111)) --BgColor,TextColor
+
+
+	b:Button("Esp",function(bool)
+		local ESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+		ESP:Toggle(true)
+	end)
+
+	b:Button("Aimbot",function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/dcA53W72", true))()
+		wait(0.3)
+		game:GetService("StarterGui"):SetCore("SendNotification", {
+			Title = "Lime X !";
+			Text = "Press Ctrl To Toggle Aimlock on and off. ";
+		})
+	end)
+
+
+	b:Button("Silent Aim",function()
+		local refreshrate = 0.01
+		_G.toggled = true
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/venosu/kat/main/head.lua", true))()
+	end)
+
+
+	b:Button("Knife Aura",function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/hgbCALJw", true))()
+	end)
+
+
+	b:Label("Misc",Color3.fromRGB(38,38,38),Color3.fromRGB(0,216,111)) --BgColor,TextColor
+
+
+	b:Button("Less Lag",function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/gX9mR85X", true))()
+	end)
+
+	b:Button("Speed Boost",function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/dMTadVqL", true))()
+	end)
+
+	b:Label("Ui Settings",Color3.fromRGB(38,38,38),Color3.fromRGB(0,216,111)) --BgColor,TextColor
+
+
+	b:DestroyGUI()
+
+	b:GuiSettings() -- Use it if you want to let people customize toggles,buttons and sliders color
+
+	--Example of refresh
+
+--[[local label = b:Label("Hi",Color3.fromRGB(255,0,0),Color3.fromRGB(0,255,0))
+ 
+label:Refresh("Not epic")
+ 
+local dropdown = b:Dropdown("Hi",{"A","B"})
+ 
+dropdown:Refresh({"A","B","C"})
+]]
+end)
